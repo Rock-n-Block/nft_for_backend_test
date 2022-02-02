@@ -10,14 +10,10 @@ contract MintableNFT is ERC721Enumerable, ERC721URIStorage, AccessControl {
     
     mapping (string => uint256) public hashToId;
 
-    constructor() ERC721("Mintable NFT","MNFT") {
-        _safeMint(msg.sender, 0);
-        _setTokenURI(0, "https://i.imgur.com/ow57Hgj.jpeg");
-        hashToId["reserved"] = 0;
-    }
+    constructor() ERC721("Mintable NFT","MNFT") {}
 
     function mint(address owner, string calldata uniqueHash, string calldata mediaURL) external {
-        require (hashToId[uniqueHash] != 0, "MintableNFT: This hash is already used");
+        require (hashToId[uniqueHash] == 0, "MintableNFT: This hash is already used");
         uint256 tokenId = totalSupply();
         _safeMint(owner, tokenId);
         _setTokenURI(tokenId, mediaURL);
